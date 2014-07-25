@@ -1,0 +1,27 @@
+{
+  "name": "rsync-watch-file",
+  "version": "0.1.0",
+  "description": "监听本地文本件，如果发生变化，则自动同步到远程机器",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "chokidar": "~0.8.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xuanxiao2013/rsync-watch-file.git"
+  },
+  "keywords": [
+    "rsync",
+    "watch",
+    "auto remote"
+  ],
+  "author": "xuanxiao",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xuanxiao2013/rsync-watch-file/issues"
+  },
+  "homepage": "https://github.com/xuanxiao2013/rsync-watch-file"
+}

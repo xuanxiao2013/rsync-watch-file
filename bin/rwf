@@ -1,0 +1,3 @@
+#!/usr/bin/env node
+exports.cli = true;
+require(require('path').resolve(__filename, '../../index.js'));
