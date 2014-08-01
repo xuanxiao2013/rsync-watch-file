@@ -71,6 +71,8 @@ write only = true
 运行
 ----
 
+本机必须安装git node rsync
+
 git clone https://github.com/xuanxiao2013/rsync-watch-file.git rwf
 
 cd rwf
