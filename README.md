@@ -20,9 +20,9 @@ watch file and rsync
 我就想，要是我在我本机开发，有一个程序自动同步，这个不就省了好多的事情，最主要的是我就可以在客户端使用我最帅气的编辑器，yy自己
 的开发环境，想想这个也不难，那就做呗
 
-写后端毕竟不是前端的强项，在github上找，发现这个autorsync[https://github.com/mattes/autorsync],试了试，发现这个达不到期望，
-就是find找文件，在监听，这个要是项目特别大的时候，就快慢死了。接着照到这个chokidar[https://github.com/paulmillr/chokidar],
-这个不错，很满足期望，然后稍作改进，目的达到
+写后端毕竟不是前端的强项，在github上找，发现这个[autorsync](https://github.com/mattes/autorsync),试了试，发现这个达不到期望，就是find找文件，在监听，这个要是项目特
+别大的时候，就快慢死了。接着找到这个[chokidar](https://github.com/paulmillr/chokidar)，这个不错，很满足期望，然后稍作改进，目的达到
+
 
 文件配置
 ----
