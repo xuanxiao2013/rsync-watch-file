@@ -1,0 +1,8 @@
+{
+	"local": "//path/to/project1/",
+	"host": "10.12.13.14",
+	"remote": "/modleName/project1/",
+	"excludeFilePath": "/path/to/project1/.rsync_ignores",
+	"everyRsync": "true",
+	"debug": "false"
+}

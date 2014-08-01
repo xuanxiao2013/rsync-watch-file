@@ -16,19 +16,9 @@ list = false
 write only = true
 **/
 
-var fs = require('fs');
-var cp = require('child_process');
-var chokidar = require('chokidar');
-var VERSION = "0.1.0";
-
-var opts = {
-	local: '/home/path/trunk_skey2/',
-	host: '1.0.1.0',
-	remote: '/rsyncdConf_modleName/project1/',
-	//启动程序首次是否同步, 默认同步
-	everyRsync: true
-}, watch;
-
+var fs = require('fs'), util = require('util'), 
+	path = require('path'), cp = require('child_process'),
+	chokidar = require('chokidar'), jf = require('jsonfile'), VERSION = "0.1.0";
 var keyMap = {
 	'add': '新增文件',
 	'addDir': '新增目录',
@@ -37,34 +27,53 @@ var keyMap = {
 	'unlinkDir': '删除目录',
 	'success': '同步成功',
 	'error': '同步失败'
-}
+};
 
 function log() {
 	console.log.apply(this, arguments);
 }
 
-
-if(process.argv.length <= 2) {
+if(process.argv.length != 3) {
+	
   log(usage());
   return;
+}else{
+	jf.readFile(path.resolve(process.argv[2]), function(err, opts) {
+		if(err){
+			log(err);
+			return false;
+		}
+		
+		if(opts.debug){
+			log(opts)
+		}
+		run(opts);
+	});
 }
 
-function watch(){	
-	var rpath, local = opts.local;
+function watch(config){	
+	var rpath, local = config.local;
 	watch = chokidar.watch(local, {ignored: /[\/\\]\./, persistent: true, ignoreInitial: true}).on('all', function(event, path) {
 		if(path){
 			rpath = path.split(local)[1];
 			log(keyMap[event], rpath);
-			rsync(rpath)
+			rsync(config, rpath)
 		}
 	});
 }
-function rsync(filePath){
-	var rsyncCmd = 'rsync -avu --delete --exclude=.svn ' + opts.local + ' ' + 'rsync://' + opts.host + opts.remote;
-	//log(rsyncCmd)
+
+function rsync(config, filePath){
+	var rsyncCmd = 'rsync -avu --delete --exclude-from=' + config.excludeFilePath + ' ' + config.local + ' ' + 'rsync://' + config.host + config.remote;
+	if(config.debug){
+		log(rsyncCmd)
+	}
 	cp.exec(rsyncCmd, function(error, stdout, stderr) {
 		filePath = filePath || stdout;
 		if(error || stderr) {
+			if(config.debug){
+				log(filePath)
+				log(error)
+			}
 			log(keyMap['error'], filePath);
 		}else{
 			log(keyMap['success'], filePath);
@@ -72,26 +81,24 @@ function rsync(filePath){
 	});
 }
 
-function usage(errorString) {
+
+function usage() {
 	  var str = '';
-	  if(errorString) {
-	    str += '!!! ' + errorString + '\n\n';
-	  } else {
-	    str += 'autorsync  version ' + VERSION + '\n';      
-	  }
-	  str += 'Usage:\n autorsync rsyncFile  \n\n';
-	  str += 'eg: autorsync ~/.autorsync.conf   \n\n';
-	  str += 'vim ~/.autorsync.conf   \n\n';
+	  str += 'Usage: rsync watch file  \n';
+	  str += 'eg: node rwf /path/to/autorsync.conf   \n';
+	  str += 'vim /path/to/autorsync.conf   \n';
 	  str += '{\n';
-	  str += '	local: /home/path/work/project1/   \n';
-	  str += '	host: 0.0.0.1 \n';
-	  str += '	remote: /rsyncdConf_modleName/project1/ \n';
-	  str += '	everyRsync: true \n';
-	  str += '}\n\n';
+	  str += '	"local": "/home/path/work/project1/"   \n';
+	  str += '	"host": "0.0.0.1", \n';
+	  str += '	"remote": "/rsyncdConf_modleName/project1/", \n';
+	  str += '	"excludeFilePath": "/path/to/.rsync_ignores", \n';
+	  str += '	"everyRsync": "true" \n';
+	  str += '}\n';
 	  return str;
 }
 
 
-opts.everyRsync && rsync();
-watch();
-
+function run(config){
+	config.everyRsync && rsync(config);
+	watch(config);
+}
