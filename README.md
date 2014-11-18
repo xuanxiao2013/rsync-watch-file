@@ -68,6 +68,14 @@ list = false
 write only = true
 ````
 
+启动服务命令
+----
+
+````
+sudo rsync --daemon --address=remove host
+sudo rsync --daemon  --config=/etc/rsyncd.conf
+````
+
 运行
 ----
 
