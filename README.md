@@ -74,6 +74,12 @@ write only = true
 ````
 sudo rsync --daemon --address=remove host
 sudo rsync --daemon  --config=/etc/rsyncd.conf
+
+查看服务状态
+ps aux|grep rsync
+
+查看用户ip
+w
 ````
 
 运行
