@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<h1>hello socket.io</h1>
+<script src="https://cdn.socket.io/socket.io-1.2.1.js"></script>
+<script>
+  var socket = io('http://localhost:3000');
+  socket.on('change', function (data) {
+	  console.log('a');
+	  location.reload()
+  });
+</script>
+</body>
+</html>
