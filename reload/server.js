@@ -4,7 +4,7 @@ var fs = require('fs'),
     cp = require('child_process'),
     chokidar = require('chokidar');
 
-var pdir = '/Users/xuanxiao/work/www/github/rsync-watch-file/reload/';
+var pdir = '/Users/xuanxiao/work/test/hashRouter/';
 var server = require('http').createServer();
 var io = require('socket.io')(server);
 console.log('监听目录:' + pdir)

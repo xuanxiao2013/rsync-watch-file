@@ -33,6 +33,11 @@ function log() {
 	console.log.apply(this, arguments);
 }
 
+
+var server = require('http').createServer();
+var io = require('socket.io')(server);
+server.listen(3000);
+
 if(process.argv.length != 3) {
 	
   log(usage());
@@ -57,12 +62,12 @@ function watch(config){
 		if(path){
 			rpath = path.split(local)[1];
 			log(keyMap[event], rpath);
-			rsync(config, rpath)
+			rsync(config, rpath, event)
 		}
 	});
 }
 
-function rsync(config, filePath){
+function rsync(config, filePath, event){
 	var rsyncCmd = 'rsync -avu --delete --exclude-from=' + config.excludeFilePath + ' ' + config.local + ' ' + 'rsync://' + config.host + config.remote;
 	if(config.debug){
 		log(rsyncCmd)
@@ -77,6 +82,7 @@ function rsync(config, filePath){
 			log(keyMap['error'], filePath);
 		}else{
 			log(keyMap['success'], filePath);
+        	io.sockets.emit(event);
 		}		
 	});
 }
