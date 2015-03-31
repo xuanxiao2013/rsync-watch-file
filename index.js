@@ -36,10 +36,9 @@ function log() {
 
 var server = require('http').createServer();
 var io = require('socket.io')(server);
-server.listen(3000);
+//sudo lsof -i:3000
 
 if(process.argv.length != 3) {
-	
   log(usage());
   return;
 }else{
@@ -52,6 +51,7 @@ if(process.argv.length != 3) {
 		if(opts.debug){
 			log(opts)
 		}
+		server.listen(opts.prot);
 		run(opts);
 	});
 }
